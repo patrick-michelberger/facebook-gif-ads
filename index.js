@@ -4,14 +4,18 @@ var fs = require('fs');
 var request = require('request');
 var async = require('async');
 
+module.exports = {
+  createSlideshow: createSlideshow
+};
+
 /**
- * Represents a book.
- * @constructo
- * @param {string} title - The title of the book.
- * @param {string} author - The author of the book.
+ * Create a slideshow from an array of URL strings.
+ *
+ * @param {string[]} urls - Image URLs
+ * @param {string} filename - GIF filename
  * @return
  */
-module.exports = function(urls, filename, callback) {
+function createSlideshow(urls, filename, callback) {
   var encoder = new GIFEncoder(320, 405);
 
   encoder.createReadStream().pipe(fs.createWriteStream(filename));
@@ -26,6 +30,10 @@ module.exports = function(urls, filename, callback) {
     i++;
     createFrame(url, i + '.png', encoder, cb);
   }, function() {
+    // Clean up
+    for(i; i > 0; i--) {
+      fs.unlinkSync(i + '.png');
+    }
     encoder.finish();
     callback();
   });
