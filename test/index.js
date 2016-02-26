@@ -15,13 +15,22 @@ var URLS = [
   "http://cdn.aboutyou.de/file/f44db5a118364e251db5885d4bbeed43?width=850&quality=85"
 ];
 
-var fbGifAds = new FbGifAds(config.facebook.access_token);
+var fbGifAds = new FbGifAds(config.facebook.access_token, config.aws.access_key, config.aws.secret_access_key);
 
 describe('#createSlideshow', function() {
-  var filename = "slideshow.gif";
+  var filename = "slideshow2.gif";
 
-  it('create a GIF slideshow', function(done) {
+  xit('create a GIF slideshow', function(done) {
     fbGifAds.createSlideshow(URLS, filename, function() {
+      chai.expect(filename).to.be.a.file();
+      done();
+    });
+  });
+
+  it('upload GIF slideshow to S3', function(done) {
+    fbGifAds.createSlideshow(URLS, filename, {
+      "awsBucket" : "aboutlooks"
+    }, function() {
       chai.expect(filename).to.be.a.file();
       done();
     });
@@ -33,7 +42,7 @@ describe('#createSlideshow', function() {
 
 });
 
-describe('#postSlideshowToFacebook', function() {
+xdescribe('#postSlideshowToFacebook', function() {
   var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
   var pageId = "1544219729194326";
 
@@ -41,7 +50,7 @@ describe('#postSlideshowToFacebook', function() {
       sinon.spy(request, 'post');
     });
 
-  it('post slideshow to facebook', function(done) {
+  xit('post slideshow to facebook', function(done) {
     fbGifAds.postToFB(pageId, imageUrl, function(error, id) {
       expect(request.post.calledOnce).to.be.true;
       done();
