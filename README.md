@@ -1,7 +1,11 @@
 createGifSlideshow
 =========
 
-A small library providing utility methods to `escape` and `unescape` HTML entities
+## Example
+
+Convert a list of image urls to an animated GIF slideshow
+
+![alt text](https://raw.githubusercontent.com/patrick-michelberger/createGifSlideshow/master/example.gif)
 
 ## Installation
 
