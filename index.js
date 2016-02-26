@@ -4,10 +4,13 @@ var fs = require('fs');
 var request = require('request');
 var async = require('async');
 
-module.exports = {
-  createSlideshow: createSlideshow,
-  postToFB: postToFB
-};
+function FbGifAds(accessToken) {
+  if (!accessToken) {
+    console.log("Please enter a FB accessToken");
+    return;
+  }
+  this.accessToken = accessToken;
+}
 
 /**
  * Create a slideshow from an array of URL strings.
@@ -21,7 +24,7 @@ module.exports = {
  * @param {number} [options.width=320] - image quality. 320 is default.
  * @param {number} [options.height=405] - image quality. 405 is default.
  */
-function createSlideshow(urls, filename, options) {
+FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
   var args = [].slice.call(arguments),
       callback = typeof args[args.length - 1] === 'function' && args.pop();
 
@@ -93,6 +96,8 @@ function createSlideshow(urls, filename, options) {
   };
 };
 
-function postToFB(pageName, slideshow, callback) {
+FbGifAds.prototype.postToFB = function(pageName, slideshow, callback) {
     callback();
 };
+
+module.exports = FbGifAds;

@@ -3,8 +3,9 @@ var chai = require('chai'),
     sinon = require('sinon'),
     expect = chai.expect,
     fs = require('fs');
-    facebookGifAds = require('../index');
+    FbGifAds = require('../index');
     request = require('request');
+    config = require('../config');
 
 chai.use(require('chai-fs'));
 
@@ -14,11 +15,13 @@ var URLS = [
   "http://cdn.aboutyou.de/file/f44db5a118364e251db5885d4bbeed43?width=850&quality=85"
 ];
 
+var fbGifAds = new FbGifAds(config.facebook.access_token);
+
 describe('#createSlideshow', function() {
   var filename = "slideshow.gif";
 
   it('create a GIF slideshow', function(done) {
-    facebookGifAds.createSlideshow(URLS, filename, function() {
+    fbGifAds.createSlideshow(URLS, filename, function() {
       chai.expect(filename).to.be.a.file();
       done();
     });
@@ -40,7 +43,7 @@ describe('#postSlideshowToFacebook', function() {
     });
 
   it('post slideshow to facebook', function(done) {
-    facebookGifAds.postToFB(pagename, filename, function() {
+    fbGifAds.postToFB(pagename, filename, function() {
       expect(request.post.calledOnce).to.be.true;
       done();
     });
