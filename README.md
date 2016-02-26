@@ -18,8 +18,15 @@ npm install facebook-gif-ads --save
 ```javascript
 var facebookGifAds = require('facebook-gif-ads');
 
-facebookGifAds.createSlideshow(urls, 'slideshow.gif', function() {
-	console.log("slideshow created!");		
+var urls = [
+  "http://cdn.aboutyou.de/file/88cf22c9ded5d41f28ad673de00357bb?width=850&quality=85",
+  "http://cdn.aboutyou.de/file/e4b33ca0cc6f4488ef154175e15aabb7?width=850&quality=85",
+  "http://cdn.aboutyou.de/file/f44db5a118364e251db5885d4bbeed43?width=850&quality=85"
+];
+var filename = "slideshow.gif";
+
+facebookGifAds.createSlideshow(urls, filename, function() {
+	console.log(filename + " created.");		
 });
 
 ```
