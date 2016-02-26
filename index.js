@@ -9,7 +9,7 @@ function FbGifAds(accessToken) {
     console.log("Please enter a FB accessToken");
     return;
   }
-  this.accessToken = accessToken;
+  this.FB_ACCESS_TOKEN = accessToken;
 }
 
 /**
@@ -96,8 +96,22 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
   };
 };
 
-FbGifAds.prototype.postToFB = function(pageName, slideshow, callback) {
-    callback();
+FbGifAds.prototype.postToFB = function(pageId, imageUrl, callback) {
+  var self = this;
+  request.post("https://graph.facebook.com/v2.2/" + pageId + "/feed?access_token=" + self.FB_ACCESS_TOKEN,
+    {
+      form : {
+        link : imageUrl
+      }
+    },
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var json = JSON.parse(response.body);
+        callback(null, json.id);
+      } else {
+        callback(error, null);
+      } 
+    })
 };
 
 module.exports = FbGifAds;

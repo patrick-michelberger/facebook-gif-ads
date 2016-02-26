@@ -33,17 +33,16 @@ describe('#createSlideshow', function() {
 
 });
 
-
 describe('#postSlideshowToFacebook', function() {
-  var filename = "example.gif";
-  var pagename = "testpage";
+  var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
+  var pageId = "1544219729194326";
 
   beforeEach(function() {
       sinon.spy(request, 'post');
     });
 
   it('post slideshow to facebook', function(done) {
-    fbGifAds.postToFB(pagename, filename, function() {
+    fbGifAds.postToFB(pageId, imageUrl, function(error, id) {
       expect(request.post.calledOnce).to.be.true;
       done();
     });
