@@ -5,7 +5,8 @@ var request = require('request');
 var async = require('async');
 
 module.exports = {
-  createSlideshow: createSlideshow
+  createSlideshow: createSlideshow,
+  postToFB: postToFB
 };
 
 /**
@@ -90,4 +91,8 @@ function createSlideshow(urls, filename, options) {
     encoder.addFrame(ctx);
     callback();
   };
+};
+
+function postToFB(pageName, slideshow, callback) {
+    callback();
 };

@@ -1,8 +1,10 @@
 var chai = require('chai'),
     should = chai.should(),
+    sinon = require('sinon'),
     expect = chai.expect,
     fs = require('fs');
     facebookGifAds = require('../index');
+    request = require('request');
 
 chai.use(require('chai-fs'));
 
@@ -24,6 +26,28 @@ describe('#createSlideshow', function() {
 
   after(function() {
     fs.unlinkSync(filename);
+  });
+
+});
+
+
+describe('#postSlideshowToFacebook', function() {
+  var filename = "example.gif";
+  var pagename = "testpage";
+
+  beforeEach(function() {
+      sinon.spy(request, 'post');
+    });
+
+  it('post slideshow to facebook', function(done) {
+    facebookGifAds.postToFB(pagename, filename, function() {
+      expect(request.post.calledOnce).to.be.true;
+      done();
+    });
+  });
+
+  afterEach(function() { 
+    request.post.restore();
   });
 
 });
