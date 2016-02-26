@@ -4,12 +4,6 @@ var fs = require('fs');
 var request = require('request');
 var async = require('async');
 
-var urls = [
-  "http://cdn.aboutyou.de/file/88cf22c9ded5d41f28ad673de00357bb?width=850&quality=85",
-  "http://cdn.aboutyou.de/file/e4b33ca0cc6f4488ef154175e15aabb7?width=850&quality=85",
-  "http://cdn.aboutyou.de/file/f44db5a118364e251db5885d4bbeed43?width=850&quality=85"
-];
-
 /**
  * Represents a book.
  * @constructo

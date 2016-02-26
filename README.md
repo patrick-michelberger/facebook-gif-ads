@@ -15,11 +15,5 @@ A small library providing utility methods to `escape` and `unescape` HTML entiti
 
   npm test
 
-## Contributing
-
-In lieu of a formal styleguide, take care to maintain the existing coding style.
-Add unit tests for any new or changed functionality. Lint and test your code.
-
-## Release History
-
-* 1.0.0 Initial release
+## Useful Links
+**Facebook for business:** Can I boost a post with an animated GIF? <https://www.facebook.com/business/help/1006874066021923>
