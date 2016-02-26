@@ -1,0 +1,21 @@
+{
+  "name": "createGifSlideshow",
+  "version": "1.0.0",
+  "description": "Convert a list of image urls to an animated GIF slideshow ready to post to your Facebook page etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "author": "Patrick Michelberger",
+  "license": "ISC",
+  "dependencies": {
+    "async": "1.5.2",
+    "canvas": "1.3.10",
+    "gifencoder": "1.0.6",
+    "request": "2.69.0"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "mocha": "2.4.5"
+  }
+}
