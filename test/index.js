@@ -20,9 +20,10 @@ var fbGifAds = new FbGifAds(config.facebook.access_token, config.aws.access_key,
 describe('#createSlideshow', function() {
   var filename = "slideshow2.gif";
 
-  xit('create a GIF slideshow', function(done) {
+  it('create a GIF slideshow', function(done) {
     fbGifAds.createSlideshow(URLS, filename, function() {
       chai.expect(filename).to.be.a.file();
+      fs.unlinkSync(filename);
       done();
     });
   });
@@ -30,19 +31,15 @@ describe('#createSlideshow', function() {
   it('upload GIF slideshow to S3', function(done) {
     fbGifAds.createSlideshow(URLS, filename, {
       "awsBucket" : "aboutlooks"
-    }, function() {
-      chai.expect(filename).to.be.a.file();
+    }, function(err, url) {
+      chai.expect(url).to.equal("https://s3.amazonaws.com/aboutlooks/slideshow2.gif");
       done();
     });
   });
 
-  after(function() {
-    fs.unlinkSync(filename);
-  });
-
 });
 
-xdescribe('#postSlideshowToFacebook', function() {
+describe('#postSlideshowToFacebook', function() {
   var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
   var pageId = "1544219729194326";
 

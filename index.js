@@ -83,6 +83,7 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
         // AUTO UPLOAD TO AMAZON S3
         if (AWS_BUCKET) {
             var imageData = fs.readFileSync(filename);
+            fs.unlinkSync(filename);
             uploadS3(AWS_BUCKET, filename, imageData, callback);
         } else {
             callback();
@@ -125,11 +126,11 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
               ContentType: 'image/gif', 
               ACL: 'public-read' 
             };
-            s3bucket.putObject(params, function(err) {
+            s3bucket.putObject(params, function(err, data) {
                 if (err) {
                     callback(err);
                 } else {
-                    callback(null);
+                    callback(null, "https://s3.amazonaws.com/" + bucketName + "/" + imageName);
                 }
             });
         });
