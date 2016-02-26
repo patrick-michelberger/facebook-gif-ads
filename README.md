@@ -3,8 +3,8 @@ facebook gif ads
 
 Convert a list of image urls to an animated GIF slideshow ready to post to your Facebook page etc.
 
-<img src="https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif" width=100 />
-
+<img src="https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif" width=250 />
+<br/>
 Example Post on Facebook: <https://www.facebook.com/wendys/posts/10153606165849489>
 
 ## Installation
