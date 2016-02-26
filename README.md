@@ -1,20 +1,20 @@
-createGifSlideshow
+facebook gif ads
 =========
 
-Convert a list of image urls to an animated GIF slideshow
+Convert a list of image urls to an animated GIF slideshow ready to post to your Facebook page etc.
 
-![alt text](https://raw.githubusercontent.com/patrick-michelberger/createGifSlideshow/master/example.gif)
+![alt text](https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif)
 
 ## Installation
 
 ```bash
-npm install createGifSlideshow --save
+npm install facebook-gif-ads --save
 ````
 
 ## Usage
 
 ```javascript
-var createGifSlideshow = require('createGifSlideshow');
+var facebookGifAds = require('facebook-gif-ads);
 ```
 
 ## Tests
