@@ -96,6 +96,12 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
   };
 };
 
+/**
+ * Post GIF image url to your Facebook page
+ *
+ * @param {string} pageId - Facebook Page ID
+ * @param {string} imageUrl- URL of the animated GIF image
+ */
 FbGifAds.prototype.postToFB = function(pageId, imageUrl, callback) {
   var self = this;
   request.post("https://graph.facebook.com/v2.2/" + pageId + "/feed?access_token=" + self.FB_ACCESS_TOKEN,
