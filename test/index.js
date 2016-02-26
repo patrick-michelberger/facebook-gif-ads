@@ -18,10 +18,12 @@ var URLS = [
 var fbGifAds = new FbGifAds(config.facebook.access_token, config.aws.access_key, config.aws.secret_access_key);
 
 describe('#createSlideshow', function() {
-    var filename = "slideshow2.gif";
+    var filename = "slideshow.gif";
 
     it('create a GIF slideshow', function(done) {
-        fbGifAds.createSlideshow(URLS, filename, function() {
+        fbGifAds.createSlideshow(URLS, filename, {
+            "delay": 400
+        }, function() {
             chai.expect(filename).to.be.a.file();
             fs.unlinkSync(filename);
             done();
@@ -30,9 +32,10 @@ describe('#createSlideshow', function() {
 
     it('upload GIF slideshow to S3', function(done) {
         fbGifAds.createSlideshow(URLS, filename, {
-            "awsBucket": "aboutlooks"
+            "awsBucket": "aboutlooks",
+            "delay": 400
         }, function(err, url) {
-            chai.expect(url).to.equal("https://s3.amazonaws.com/aboutlooks/slideshow2.gif");
+            chai.expect(url).to.equal("https://s3.amazonaws.com/aboutlooks/slideshow.gif");
             done();
         });
     });
@@ -42,7 +45,7 @@ describe('#createSlideshow', function() {
 describe('#postSlideshowToFacebook', function() {
     var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
     var pageId = "1544219729194326";
-    var filename = "slideshow.gif";
+    var filename = "slideshow_" + new Date().getTime()  + ".gif";
 
     beforeEach(function() {
         sinon.spy(request, 'post');
@@ -50,7 +53,8 @@ describe('#postSlideshowToFacebook', function() {
 
     it('post slideshow to facebook', function(done) {
         fbGifAds.createSlideshow(URLS, filename, {
-            "awsBucket": "aboutlooks"
+            "awsBucket": "aboutlooks",
+            "delay": 600
         }, function(err, url) {
             fbGifAds.postToFB(pageId, url, function(error, id)  {
                 expect(request.post.calledOnce).to.be.true;

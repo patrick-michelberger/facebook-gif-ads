@@ -75,16 +75,17 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
         i++;
         createFrame(url, i + '.png', encoder, cb);
     }, function() {
+        encoder.finish();
         // CLEAN UP
         for (i; i > 0; i--) {
             fs.unlinkSync(i + '.png');
         }
-        encoder.finish();
         // AUTO UPLOAD TO AMAZON S3
         if (AWS_BUCKET) {
-            var imageData = fs.readFileSync(filename);
-            fs.unlinkSync(filename);
-            uploadS3(AWS_BUCKET, filename, imageData, callback);
+            fs.readFile(filename, function(err, imageData) {
+              fs.unlinkSync(filename);
+              uploadS3(AWS_BUCKET, filename, imageData, callback);
+            });
         } else {
             callback();
         }
