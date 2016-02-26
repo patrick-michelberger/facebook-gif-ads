@@ -19,6 +19,8 @@ Rename `index.example.js` to `index.js` in the `config` folder and past in your 
 
 ## Usage
 
+#### Create GIF slideshow from example urls
+
 ```javascript
 
 // Load Dependencies
@@ -37,12 +39,16 @@ var urls = [
 
 var filename = "slideshow.gif";
 
-// Create GIF slideshow from example urls
 facebookGifAds.createSlideshow(urls, filename, function() {
 	console.log(filename + " created.");		
 });
 
-// Post GIF image url to your Facebook page
+
+````
+
+#### Post GIF image url to your Facebook page
+
+```javascript
 var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
 var pageId = "1544219729194326";
 
