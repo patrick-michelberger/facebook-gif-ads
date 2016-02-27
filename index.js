@@ -35,6 +35,7 @@ function FbGifAds(fbAccessToken, awsAccessKey, awsSecretAccessKey) {
  * @param {number} [options.quality=10] - image quality. 10 is default.
  * @param {number} [options.width=320] - image quality. 320 is default.
  * @param {number} [options.height=405] - image quality. 405 is default.
+ * @param {string[]} [options.captions] - image captions
  * @param {string} [options.awsBucket] - AWS bucket name. If set, the file is directly uploaded to Amazon S3 instead of the local file system.
  */
 FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
@@ -60,9 +61,13 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     var WIDTH = options.width || 320;
     var HEIGHT = options.height || 405;
     var AWS_BUCKET = options.awsBucket ||  false;
+    var CAPTIONS = options.captions || [];
+    var hasCaptions = options.captions ? true : false;
+    var CANVAS_WIDTH = WIDTH;
+    var CANVAS_HEIGHT = hasCaptions ? HEIGHT + 100 : HEIGHT;
 
     // INITIALIZE GIF ENCODER
-    var encoder = new GIFEncoder(WIDTH, HEIGHT);
+    var encoder = new GIFEncoder(CANVAS_WIDTH, CANVAS_HEIGHT);
     encoder.createReadStream().pipe(fs.createWriteStream(filename));
     encoder.start();
     encoder.setRepeat(REPEAT);
@@ -73,7 +78,8 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     var i = 0;
     async.each(urls, function(url, cb) {
         i++;
-        createFrame(url, i + '.png', encoder, cb);
+        var caption = CAPTIONS[i-1];
+        createFrame(url, i + '.png', encoder, caption, cb);
     }, function() {
         encoder.finish();
         // CLEAN UP
@@ -92,9 +98,9 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     });
 
     // HELPERS  
-    function createFrame(url, filename, encoder, callback) {
+    function createFrame(url, filename, encoder, caption, callback) {
         download(url, filename, function() {
-            drawFrame(filename, encoder, callback);
+            drawFrame(filename, encoder, caption, callback);
         });
     };
 
@@ -104,15 +110,19 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
             .pipe(fs.createWriteStream(filename)).on('close', callback);
     };
 
-    function drawFrame(filename, encoder, callback) {
-        var canvas = new Canvas(WIDTH, HEIGHT);
+    function drawFrame(filename, encoder, caption, callback) {
+        var canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         var ctx = canvas.getContext('2d');
         var buf = fs.readFileSync(filename);
         var img = new Canvas.Image();
         img.src = buf;
         ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx.drawImage(img, 0, 0, WIDTH, HEIGHT);
+        ctx.font="bold 24px Helvetica";
+        ctx.fillStyle = 'black';
+        ctx.textAlign="center"; 
+        ctx.fillText(caption,CANVAS_WIDTH/2,CANVAS_HEIGHT/1.2, CANVAS_WIDTH);
         encoder.addFrame(ctx);
         callback();
     };
