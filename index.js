@@ -61,7 +61,7 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     var WIDTH = options.width || 320;
     var HEIGHT = options.height || 405;
     var AWS_BUCKET = options.awsBucket ||  false;
-    var CAPTIONS = options.captions || [];
+    var CAPTIONS = options.captions ||  [];
     var hasCaptions = options.captions ? true : false;
     var CANVAS_WIDTH = WIDTH;
     var CANVAS_HEIGHT = hasCaptions ? HEIGHT + 100 : HEIGHT;
@@ -78,7 +78,7 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     var i = 0;
     async.each(urls, function(url, cb) {
         i++;
-        var caption = CAPTIONS[i-1];
+        var caption = CAPTIONS[i - 1];
         createFrame(url, i + '.png', encoder, caption, cb);
     }, function() {
         encoder.finish();
@@ -89,8 +89,8 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
         // AUTO UPLOAD TO AMAZON S3
         if (AWS_BUCKET) {
             fs.readFile(filename, function(err, imageData) {
-              fs.unlinkSync(filename);
-              uploadS3(AWS_BUCKET, filename, imageData, callback);
+                fs.unlinkSync(filename);
+                uploadS3(AWS_BUCKET, filename, imageData, callback);
             });
         } else {
             callback();
@@ -119,10 +119,12 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
         ctx.fillStyle = '#fff';
         ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         ctx.drawImage(img, 0, 0, WIDTH, HEIGHT);
-        ctx.font="bold 24px Helvetica";
-        ctx.fillStyle = 'black';
-        ctx.textAlign="center"; 
-        ctx.fillText(caption,CANVAS_WIDTH/2,CANVAS_HEIGHT/1.2, CANVAS_WIDTH);
+        if (caption) {
+            ctx.font = "bold 24px Helvetica";
+            ctx.fillStyle = 'black';
+            ctx.textAlign = "center";
+            ctx.fillText(caption, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 1.2, CANVAS_WIDTH);
+        }
         encoder.addFrame(ctx);
         callback();
     };
@@ -130,12 +132,12 @@ FbGifAds.prototype.createSlideshow = function(urls, filename, options) {
     function uploadS3(bucketName, imageName, imageData, callback) {
         var s3bucket = new AWS.S3({ params: { Bucket: bucketName } });
         s3bucket.createBucket(function(err) {
-            var params = { 
-              Bucket: bucketName, 
-              Key: imageName, 
-              Body: imageData, 
-              ContentType: 'image/gif', 
-              ACL: 'public-read' 
+            var params = {
+                Bucket: bucketName,
+                Key: imageName,
+                Body: imageData,
+                ContentType: 'image/gif',
+                ACL: 'public-read'
             };
             s3bucket.putObject(params, function(err, data) {
                 if (err) {
