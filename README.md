@@ -24,7 +24,7 @@ Rename `index.example.js` to `index.js` in the `config` folder and past in your 
 ```javascript
 
 // Load Dependencies
-var facebookGifAds = require('facebook-gif-ads');
+var FbGifAds = require('facebook-gif-ads');
 var config = require('config');
 
 // Initialization
@@ -39,7 +39,7 @@ var urls = [
 
 var filename = "slideshow.gif";
 
-facebookGifAds.createSlideshow(urls, filename, function() {
+fbGifAds.createSlideshow(urls, filename, function() {
 	console.log(filename + " created.");		
 });
 
@@ -52,7 +52,7 @@ facebookGifAds.createSlideshow(urls, filename, function() {
 var imageUrl = "https://raw.githubusercontent.com/patrick-michelberger/facebook-gif-ads/master/example.gif";
 var pageId = "1544219729194326";
 
-facebookGifAds.postToFB(pageId, imageUrl, function(err, postId) {
+fbGifAds.postToFB(pageId, imageUrl, function(err, postId) {
 	if (err) {
 		console.log("An error occured: ", err);
 	} else {
