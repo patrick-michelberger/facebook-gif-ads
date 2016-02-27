@@ -1,6 +1,6 @@
 {
   "name": "facebook-gif-ads",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Convert a list of image urls to an animated GIF slideshow ready to post to your Facebook page etc.",
   "main": "index.js",
   "scripts": {
